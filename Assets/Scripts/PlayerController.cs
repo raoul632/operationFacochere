@@ -7,11 +7,16 @@ public class PlayerController : MonoBehaviour
     [SerializeField] float speed ;
     [SerializeField] Rigidbody2D rb;
     [SerializeField] Transform handGun;
+    [SerializeField] GameObject bullet;
+    [SerializeField] Transform firePoint; 
     
     private Camera _cam;
     private Animator _animator;
     private Vector2 moveInput ;
- 
+    private float myTime = 0.0F;
+
+
+
 
 
     // Start is called before the first frame update
@@ -67,6 +72,15 @@ public class PlayerController : MonoBehaviour
         else
         {
             _animator.SetBool("IsMoving", false);
+        }
+
+        float nextFire = 0.5f; 
+        myTime = myTime + Time.deltaTime; 
+        if (Input.GetButton("Fire1") && myTime > nextFire)
+        {
+            Instantiate(bullet, firePoint.position, firePoint.rotation);
+            nextFire = nextFire - myTime;
+            myTime = 0.0f; 
         }
 
 
