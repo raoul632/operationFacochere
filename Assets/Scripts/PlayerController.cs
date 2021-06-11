@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
-    [SerializeField] float speed = 10.0f;
+    [SerializeField] float speed ;
     [SerializeField] Rigidbody2D rb;
     [SerializeField] Transform handGun;
     
@@ -30,12 +30,14 @@ public class PlayerController : MonoBehaviour
         moveInput.y = Input.GetAxis("Vertical") ;
         moveInput.x = Input.GetAxis("Horizontal") ;
 
+        moveInput.Normalize(); 
+
         rb.velocity = moveInput * speed;
         print(rb.velocity);
 
 
         Vector3 mousePosition = Input.mousePosition;
-        Vector3 playerPosition = _cam.WorldToScreenPoint(transform.position);
+        Vector3 playerPosition = _cam.WorldToScreenPoint(transform.localPosition);
 
         if (mousePosition.x < playerPosition.x)
         {
@@ -44,15 +46,15 @@ public class PlayerController : MonoBehaviour
         }
         else
         {
-            transform.localScale = new Vector3(1f, 1f, 1f);
+            transform.localScale = Vector3.one;
             handGun.localScale = Vector3.one;
         }
 
 
 
-        Vector3 direction = mousePosition - playerPosition;
+        Vector2 offset = new Vector2(mousePosition.x - playerPosition.x, mousePosition.y - playerPosition.y); 
 
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
 
         handGun.rotation = Quaternion.Euler(0, 0, angle);
 
