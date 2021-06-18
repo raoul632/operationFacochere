@@ -25,12 +25,18 @@ public class BulletController : NetworkBehaviour
     [ServerCallback]
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        //sinon collision avec le parent !! va savoir 
+        Physics2D.IgnoreCollision(transform.parent.GetComponent<Collider2D>(), gameObject.GetComponent<Collider2D>());
+
+
+        //transform.parent
         if (collision.gameObject.tag == "Player")
         {
             Debug.Log("Trigger collision avec le joueur detecter");
         }
-        Instantiate(impactEffect, gameObject.transform.position, Quaternion.identity); 
-        Destroy(gameObject); 
+       
+        Instantiate(impactEffect, gameObject.transform.position, Quaternion.identity);
+        Destroy(gameObject);
     }
 
     [Server]
@@ -41,12 +47,5 @@ public class BulletController : NetworkBehaviour
 
     
   
-    [ServerCallback]
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-        if(collision.gameObject.tag == "Player")
-        {
-            Debug.Log("Collision avec le joueur detecter");
-        }
-    }
+   
 }

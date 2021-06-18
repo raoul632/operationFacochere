@@ -29,11 +29,11 @@ public class PlayerController : NetworkBehaviour
     }
 
     // Update is called once per frame
-    [Client]
+    
     void Update()
     {
 
-        if (!this.hasAuthority)
+       if (!hasAuthority)
         {
             return;
         }
@@ -81,25 +81,54 @@ public class PlayerController : NetworkBehaviour
             _animator.SetBool("IsMoving", false);
         }
 
-        CmdFire();
-
-    }
-
-    #region server
-    [Command]
-    private void CmdFire()
-    {
         float nextFire = 0.5f;
         myTime = myTime + Time.deltaTime;
 
-
         if (Input.GetButton("Fire1") && myTime > nextFire)
         {
-            GameObject projectile = Instantiate(bullet, firePoint.position, firePoint.rotation);
-            NetworkServer.Spawn(projectile); 
+           
+            CmdFire(); 
+         
             nextFire = nextFire - myTime;
             myTime = 0.0f;
         }
+
+    }
+
+    [ServerCallback]
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player")
+        {
+            Debug.Log("Collision avec le joueur detecter");
+        }
+    }
+
+    #region server
+    [Command(requiresAuthority = false)]
+    private void CmdFire()
+    {
+
+        if (!this.isLocalPlayer)
+        {
+            print("na pas les droits ça degage");
+            return;
+        }
+        GameObject projectile = Instantiate(bullet, firePoint.position, firePoint.rotation);
+        
+        NetworkServer.Spawn(projectile, connectionToClient);
+       // RpcSetParent(projectile, gameObject); 
+
+
+    }
+
+    [ClientRpc]
+    void RpcSetParent(GameObject obj, GameObject parent) {
+        if (!isLocalPlayer)
+        {
+            obj.transform.parent = parent.transform;
+        }
+    
     }
     #endregion
 }
