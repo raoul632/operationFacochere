@@ -443,7 +443,7 @@ MonoBehaviour:
   onlineScene: 
   transport: {fileID: 2143530557}
   networkAddress: localhost
-  maxConnections: 100
+  maxConnections: 2
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}

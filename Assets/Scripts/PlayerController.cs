@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror; 
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : NetworkBehaviour
 {
     [SerializeField] float speed ;
     [SerializeField] Rigidbody2D rb;
@@ -28,14 +29,20 @@ public class PlayerController : MonoBehaviour
     }
 
     // Update is called once per frame
+    [Client]
     void Update()
     {
 
+        if (!this.isLocalPlayer)
+        {
+            return;
+        }
 
-        moveInput.y = Input.GetAxis("Vertical") ;
-        moveInput.x = Input.GetAxis("Horizontal") ;
 
-        moveInput.Normalize(); 
+        moveInput.y = Input.GetAxis("Vertical");
+        moveInput.x = Input.GetAxis("Horizontal");
+
+        moveInput.Normalize();
 
         rb.velocity = moveInput * speed;
         print(rb.velocity);
@@ -57,7 +64,7 @@ public class PlayerController : MonoBehaviour
 
 
 
-        Vector2 offset = new Vector2(mousePosition.x - playerPosition.x, mousePosition.y - playerPosition.y); 
+        Vector2 offset = new Vector2(mousePosition.x - playerPosition.x, mousePosition.y - playerPosition.y);
 
         float angle = Mathf.Atan2(offset.y, offset.x) * Mathf.Rad2Deg;
 
@@ -74,17 +81,25 @@ public class PlayerController : MonoBehaviour
             _animator.SetBool("IsMoving", false);
         }
 
-        float nextFire = 0.5f; 
-        myTime = myTime + Time.deltaTime; 
-        if (Input.GetButton("Fire1") && myTime > nextFire)
-        {
-            Instantiate(bullet, firePoint.position, firePoint.rotation);
-            nextFire = nextFire - myTime;
-            myTime = 0.0f; 
-        }
-
-
+        CmdFire();
 
     }
-    
+
+    #region server
+    [Command]
+    private void CmdFire()
+    {
+        float nextFire = 0.5f;
+        myTime = myTime + Time.deltaTime;
+
+
+        if (Input.GetButton("Fire1") && myTime > nextFire)
+        {
+            GameObject projectile = Instantiate(bullet, firePoint.position, firePoint.rotation);
+            NetworkServer.Spawn(projectile); 
+            nextFire = nextFire - myTime;
+            myTime = 0.0f;
+        }
+    }
+    #endregion
 }
