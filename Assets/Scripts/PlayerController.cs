@@ -33,7 +33,7 @@ public class PlayerController : NetworkBehaviour
     void Update()
     {
 
-        if (!this.isLocalPlayer)
+        if (!this.hasAuthority)
         {
             return;
         }
@@ -45,7 +45,7 @@ public class PlayerController : NetworkBehaviour
         moveInput.Normalize();
 
         rb.velocity = moveInput * speed;
-        print(rb.velocity);
+       
 
 
         Vector3 mousePosition = Input.mousePosition;
