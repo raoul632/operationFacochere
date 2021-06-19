@@ -33,7 +33,7 @@ public class PlayerController : NetworkBehaviour
     void Update()
     {
 
-       if (!hasAuthority)
+       if (!isLocalPlayer)
         {
             return;
         }
@@ -86,9 +86,9 @@ public class PlayerController : NetworkBehaviour
 
         if (Input.GetButton("Fire1") && myTime > nextFire)
         {
-           
-            CmdFire(); 
-         
+
+            CmdFire(firePoint.position, firePoint.rotation); 
+
             nextFire = nextFire - myTime;
             myTime = 0.0f;
         }
@@ -105,18 +105,15 @@ public class PlayerController : NetworkBehaviour
     }
 
     #region server
-    [Command(requiresAuthority = false)]
-    private void CmdFire()
+    [Command]
+    private void CmdFire(Vector3 position, Quaternion rotation)
     {
+        if (!NetworkServer.active) return;
 
-        if (!this.isLocalPlayer)
-        {
-            print("na pas les droits ça degage");
-            return;
-        }
-        GameObject projectile = Instantiate(bullet, firePoint.position, firePoint.rotation);
+        GameObject projectile = Instantiate(bullet,position, rotation );
+
+            NetworkServer.Spawn(projectile);
         
-        NetworkServer.Spawn(projectile, connectionToClient);
        // RpcSetParent(projectile, gameObject); 
 
 
