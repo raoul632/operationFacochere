@@ -17,9 +17,7 @@ public class PlayerController : NetworkBehaviour
     private float myTime = 0.0F;
 
 
-
-
-
+  
     // Start is called before the first frame update
     void Start()
     {
@@ -29,14 +27,13 @@ public class PlayerController : NetworkBehaviour
     }
 
     // Update is called once per frame
-    
+
+    [ClientCallback]
     void Update()
     {
 
-       if (!isLocalPlayer)
-        {
-            return;
-        }
+      if (!hasAuthority) { return; }
+       
 
 
         moveInput.y = Input.GetAxis("Vertical");
