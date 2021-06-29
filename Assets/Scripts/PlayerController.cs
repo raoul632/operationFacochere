@@ -95,21 +95,23 @@ public class PlayerController : NetworkBehaviour
     [ServerCallback]
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        print("collision"); 
         if (collision.gameObject.tag == "Player")
         {
             Debug.Log("Collision avec le joueur detecter");
         }
     }
 
+ 
+
     #region server
     [Command]
     private void CmdFire(Vector3 position, Quaternion rotation)
     {
-        if (!NetworkServer.active) return;
+        //if (!NetworkServer.active) return;
 
         GameObject projectile = Instantiate(bullet,position, rotation );
-
-            NetworkServer.Spawn(projectile);
+        NetworkServer.Spawn(projectile, connectionToClient);
         
        // RpcSetParent(projectile, gameObject); 
 
