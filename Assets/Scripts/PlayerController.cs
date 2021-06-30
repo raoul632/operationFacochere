@@ -9,8 +9,9 @@ public class PlayerController : NetworkBehaviour
     [SerializeField] Rigidbody2D rb;
     [SerializeField] Transform handGun;
     [SerializeField] GameObject bullet;
-    [SerializeField] Transform firePoint; 
-    
+    [SerializeField] Transform firePoint;
+    [SerializeField] Transform player;
+
     private Camera _cam;
     private Animator _animator;
     private Vector2 moveInput ;
