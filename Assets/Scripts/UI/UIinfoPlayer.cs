@@ -21,40 +21,40 @@ public class UIinfoPlayer : NetworkBehaviour
     [Server]
     void Start()
     {
-        #region createCanvas
-        _GOcanvas.AddComponent<Canvas>();
-        _GOcanvas.name = "Text Canvas";
-        _GOcanvas.AddComponent<CanvasScaler>();
-        _GOcanvas.AddComponent<GraphicRaycaster>();
+        //#region createCanvas
+        //_GOcanvas.AddComponent<Canvas>();
+        //_GOcanvas.name = "Text Canvas";
+        //_GOcanvas.AddComponent<CanvasScaler>();
+        //_GOcanvas.AddComponent<GraphicRaycaster>();
 
 
-        _canvas = _GOcanvas.GetComponent<Canvas>();
-        _canvas.renderMode = RenderMode.WorldSpace;
-        _canvas.gameObject.transform.position = new Vector3(0, 0, 0);
+        //_canvas = _GOcanvas.GetComponent<Canvas>();
+        //_canvas.renderMode = RenderMode.WorldSpace;
+        //_canvas.gameObject.transform.position = new Vector3(0, 0, 0);
 
-        RectTransform canvasTransform = _canvas.GetComponent<RectTransform>();
-        canvasTransform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
+        //RectTransform canvasTransform = _canvas.GetComponent<RectTransform>();
+        //canvasTransform.localScale = new Vector3(0.01f, 0.01f, 0.01f);
 
-        _GOtext = new GameObject();
-        _GOtext.transform.parent = _GOcanvas.transform;
-        _GOtext.name = "wibble";
+        //_GOtext = new GameObject();
+        //_GOtext.transform.parent = _GOcanvas.transform;
+        //_GOtext.name = "wibble";
 
-        _text = _GOtext.AddComponent<Text>();
-        _text.font = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
-        _text.text = displayName;
-        _text.fontSize = 50;
+        //_text = _GOtext.AddComponent<Text>();
+        //_text.font = (Font)Resources.GetBuiltinResource(typeof(Font), "Arial.ttf");
+        //_text.text = displayName;
+        //_text.fontSize = 50;
 
-        rectTransform = _text.GetComponent<RectTransform>();
-        rectTransform.localPosition = new Vector3(0, 0, 0);
-        rectTransform.sizeDelta = new Vector2(200, 200);
-        rectTransform.localScale = new Vector3(1f, 1f, 1f);
-        #endregion
+        //rectTransform = _text.GetComponent<RectTransform>();
+        //rectTransform.localPosition = new Vector3(0, 0, 0);
+        //rectTransform.sizeDelta = new Vector2(200, 200);
+        //rectTransform.localScale = new Vector3(1f, 1f, 1f);
+        //#endregion
 
-        #region testreseaux
-        _GOcanvas.AddComponent<NetworkIdentity>();
-        _GOcanvas.AddComponent<NetworkTransform>();
-        NetworkServer.Spawn(_GOcanvas);
-        #endregion
+        //#region testreseaux
+        //_GOcanvas.AddComponent<NetworkIdentity>();
+        //_GOcanvas.AddComponent<NetworkTransform>();
+        //NetworkServer.Spawn(_GOcanvas);
+        //#endregion
     }
 
     [Server]

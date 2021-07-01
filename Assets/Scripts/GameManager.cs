@@ -42,8 +42,12 @@ public class GameManager : NetworkBehaviour
         //information follow the player 
         foreach (KeyValuePair<GameObject, GameObject> entry in players)
         {
-            if(entry.Value != null && entry.Key != null )
-            entry.Value.transform.position = entry.Key.transform.position; 
+            if (entry.Value != null && entry.Key != null)
+            {
+
+                Vector3 temp = entry.Key.transform.position;
+                entry.Value.transform.position = new Vector3(temp.x, temp.y + 0.7f, temp.z); 
+            }
             
         }
 
