@@ -459,5 +459,6 @@ MonoBehaviour:
   playerSpawnMethod: 1
   spawnPrefabs:
   - {fileID: 6977370970920893869, guid: 985fc5f3c52ccab40beff2e7fa54887b, type: 3}
+  - {fileID: 2257837526335081520, guid: 09fe85fade520f44a9818140e95f35a8, type: 3}
   unitSpawnerPrefab: {fileID: 6801978534153105973, guid: 4952abc05046bf3499011fdcf7de3354, type: 3}
   gameManager: {fileID: 1915496196}

@@ -8,8 +8,8 @@ public class UIinfoPlayer : NetworkBehaviour
 {
 
     [SerializeField]private GameObject _GOcanvas;
+    [SerializeField] private Text _text;
     private GameObject _GOtext;
-    private Text _text;
     private Canvas _canvas;
     private RectTransform rectTransform;
 
@@ -21,11 +21,12 @@ public class UIinfoPlayer : NetworkBehaviour
     [Server]
     void Start()
     {
-        
+        #region createCanvas
         _GOcanvas.AddComponent<Canvas>();
         _GOcanvas.name = "Text Canvas";
         _GOcanvas.AddComponent<CanvasScaler>();
         _GOcanvas.AddComponent<GraphicRaycaster>();
+
 
         _canvas = _GOcanvas.GetComponent<Canvas>();
         _canvas.renderMode = RenderMode.WorldSpace;
@@ -47,6 +48,13 @@ public class UIinfoPlayer : NetworkBehaviour
         rectTransform.localPosition = new Vector3(0, 0, 0);
         rectTransform.sizeDelta = new Vector2(200, 200);
         rectTransform.localScale = new Vector3(1f, 1f, 1f);
+        #endregion
+
+        #region testreseaux
+        _GOcanvas.AddComponent<NetworkIdentity>();
+        _GOcanvas.AddComponent<NetworkTransform>();
+        NetworkServer.Spawn(_GOcanvas);
+        #endregion
     }
 
     [Server]
